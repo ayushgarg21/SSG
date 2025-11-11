@@ -1,0 +1,42 @@
+# Data files
+*.csv
+*.xlsx
+*.xls
+
+# Checkpoint and output files
+*.checkpoint*
+*.partial
+
+# Logs
+logs/
+*.log
+
+# Test results
+test_results_*.csv
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Icon
+Thumbs.db
+
+# Skill extractor folder (user has their own)
+skill_extractor_streamlit copy/

@@ -1,0 +1,62 @@
+================================================================================
+QUICK START GUIDE - Skills Extraction Pipeline
+================================================================================
+
+📋 BEFORE YOU SLEEP - Run this command:
+================================================================================
+
+python run_full_extraction.py
+
+
+That's it! This will:
+✓ Extract skills from all 598,668 jobs (~6-10 hours)
+✓ Extract sentences for each skill (~30-60 minutes)
+✓ Save all logs to logs/ directory
+✓ Create final output: jobtech_skills_with_sentences.csv
+
+
+================================================================================
+Alternative commands (if above doesn't work):
+================================================================================
+
+# Mac/Linux:
+./run_full_extraction.sh
+
+# Windows or simple version:
+python batch_skill_extraction.py && python extract_skill_sentences.py
+
+
+================================================================================
+📂 Output files you'll have in the morning:
+================================================================================
+
+1. jobtech_skills_extracted.csv - All skills with positions
+2. jobtech_skills_with_sentences.csv - Skills + sentences (MAIN OUTPUT)
+3. logs/skill_extraction.log - Log from step 1
+4. logs/sentence_extraction.log - Log from step 2
+
+
+================================================================================
+⚠️  IMPORTANT - Test first (optional but recommended):
+================================================================================
+
+python test_extraction_pipeline.py
+
+This tests on 10 jobs only (takes 2 minutes) to make sure everything works.
+
+
+================================================================================
+💡 What you'll get:
+================================================================================
+
+For each skill found in a job description, you'll get:
+- The skill name and type
+- The exact sentence where it was mentioned
+- Position in the original text
+- Cleaned job description
+- Skill metadata (category, weight, etc.)
+
+
+================================================================================
+Sleep well! 😴
+================================================================================
