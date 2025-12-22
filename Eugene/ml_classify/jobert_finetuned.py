@@ -12,7 +12,7 @@ import re
 import html
 from collections import defaultdict
 from tqdm import tqdm
-from jobert_utils import preprocess_line_breaks, split_into_sentences
+from sentence_splitter_v2 import split_into_sentences_v2
 tqdm.pandas()
 
 # ============================================================================
@@ -29,7 +29,7 @@ USE_FINETUNED_MODEL = True  # Set to False to use original AhmedBou/JoBert
 FINETUNED_MODEL_PATH = os.path.join(BASE_PATH, "jobert_finetuned")
 
 # Input/Output paths (relative to Eugene folder)
-INPUT_FILE = os.path.join(BASE_PATH, "sampled_jobs_final.parquet")  # Change this to your input file
+INPUT_FILE = os.path.join(BASE_PATH, "diverse_sample_1k.parquet")  # Change this to your input file
 OUTPUT_PARQUET = os.path.join(SCRIPT_DIR, "categorized_jobs_finetuned.parquet")
 OUTPUT_EXCEL = os.path.join(SCRIPT_DIR, "categorized_jobs_finetuned.xlsx")
 
@@ -188,13 +188,9 @@ print("\n" + "="*80)
 print("Processing job descriptions...")
 print("="*80)
 
-# Preprocess job descriptions
-print("Step 1: Preprocessing (HTML cleaning)...")
-df_sample['job_description_clean'] = df_sample['job_description'].progress_apply(preprocess_line_breaks)
-
-# Mask PII
-print("Step 2: Masking PII...")
-df_sample['job_description_masked'] = df_sample['job_description_clean'].progress_apply(mask_pii)
+# Mask PII (V2 splitter handles HTML cleaning internally)
+print("Step 1: Masking PII...")
+df_sample['job_description_masked'] = df_sample['job_description'].progress_apply(mask_pii)
 
 # Initialize columns
 for label in label_names:
@@ -206,10 +202,10 @@ df_sample['sentence_count'] = 0
 stats = {'total_sentences': 0, 'filtered_contact': 0, 'filtered_headers': 0, 'classified': 0}
 
 # Process each row
-print("Step 3: Classifying sentences...")
+print("Step 2: Classifying sentences (with V2 splitter)...")
 for idx, row in tqdm(df_sample.iterrows(), total=len(df_sample)):
     job_desc = row['job_description_masked']
-    sentences = split_into_sentences(job_desc, smart_split=True)
+    sentences = split_into_sentences_v2(job_desc)
 
     df_sample.at[idx, 'sentences'] = sentences
     df_sample.at[idx, 'sentence_count'] = len(sentences)
@@ -243,7 +239,7 @@ for idx, row in tqdm(df_sample.iterrows(), total=len(df_sample)):
         df_sample.at[idx, label] = " ".join(label_sentences[label])
 
 # Drop intermediate columns
-df_sample = df_sample.drop(columns=['job_description_clean', 'job_description_masked'])
+df_sample = df_sample.drop(columns=['job_description_masked'])
 
 print("\nClassification complete!")
 
