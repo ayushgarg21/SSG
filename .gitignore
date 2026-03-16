@@ -43,3 +43,5 @@ Thumbs.db
 skill_extractor_streamlit copy/
 # Ignore finetuned models
 Eugene_v2/model_finetuned/
+data/*.parquet
+data_extraction/get_nov_jobs_data/*.parquet
