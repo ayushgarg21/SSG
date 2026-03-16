@@ -25,6 +25,7 @@ __pycache__/
 venv/
 env/
 ENV/
+.venv/*
 
 # IDE
 .vscode/
@@ -40,3 +41,5 @@ Thumbs.db
 
 # Skill extractor folder (user has their own)
 skill_extractor_streamlit copy/
+# Ignore finetuned models
+Eugene_v2/model_finetuned/

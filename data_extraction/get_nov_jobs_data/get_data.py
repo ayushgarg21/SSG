@@ -27,6 +27,7 @@ def get_data(RRdb):
     c.company_id,
     c.company_id_normalised,
     c.company_name,
+    c.company_name_final_norm,
     c.industry_id,
     jj.wage_min,
     jj.wage_max,
@@ -38,6 +39,7 @@ def get_data(RRdb):
     cnim.company_id AS company_id_normalised,
     cnim.company_id_deprecated AS company_id,
     cnim.company_name_deprecated AS company_name,
+    cnim.company_name_final_norm AS company_name_final_norm,
     industry_id
     FROM jobtech_data_singapore2.company_norm_industry_map cnim
     JOIN jobtech_industry.industry_specialisation ji
@@ -45,7 +47,7 @@ def get_data(RRdb):
     ) c
     ON jj.company_id = c.company_id
     WHERE
-    jj.date_posted BETWEEN '2025-10-01' AND '2025-10-31';"""
+    jj.date_posted BETWEEN '2026-01-01' AND '2026-01-31';"""
     data=execute_read_query(RRdb,query,logger)
     print(data)
     print(f"Total rows fetched: {len(data)}")
@@ -53,4 +55,4 @@ def get_data(RRdb):
 
 data=get_data(RRdb)
 
-data.to_parquet("nov_25_jobs_final.parquet",index=False)
+data.to_parquet("jan_26_jobs_final.parquet",index=False)

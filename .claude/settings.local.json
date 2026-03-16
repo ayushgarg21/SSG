@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python data_richness_check/main.py:*)"
+    ]
+  }
+}
